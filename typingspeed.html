@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Typing Speed Test</title>
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<style>
+	body{
+		margin: 0;
+		padding: 0;
+		background-image: linear-gradient(to right, #24acdc, #00c1d8, #00d2b6, #45dd7e, #ade03b);
+		text-align: center;
+		box-sizing: border-box;
+		font-family: 'Pacifico', cursive;
+	}
+	h1{
+		text-align: center;
+		margin-top: 40px;
+		text-shadow: 1px 2px 3px #2980b8;
+		font-size: 3.1rem;
+	}
+	textarea{
+		position: relative;
+		background-color: #444;
+		color: white;
+		border-radius: 15px 15px 15px 15px;
+		border: 2px solid black; 
+	}
+	.maindiv{
+		width: 100%;
+		position: relative;
+	}
+	button{
+		border: 2px solid black;
+	}
+	
+</style>
+<body>
+<div class="maindiv">	
+  <div class="centerdiv">
+     <h1>Welcome to Typing Speed Test !</h1><br>
+     <h2 id="msg"></h2>
+     <textarea placeholder="Type here," cols="120" rows="15" id="mywords" onpaste="return false;"></textarea>
+     <br><br>
+     <button class="btn btn-dark" id="btn">Start</button>
+  </div>
+</div>
+
+<script>
+	const quotes=[
+					"Do something today so that your futureself will thank you for.",
+					"When you want to succeed as bad as you want to breathe,then you will be successful.",
+					"Sometimes it is better to let the silence do the talking.",
+					"All our dreams can come true if we have the courage to pursue them.",
+					"The struggle you are in today is developing the strength you need for tomorrow"
+					];
+
+	const msg = document.getElementById('msg');
+	const typedwords = document.getElementById('mywords');
+	const btn = document.getElementById('btn');
+	let starttime,endtime;
+
+
+const playgame = () =>{
+		let randomNumber = Math.floor(Math.random()*quotes.length);
+		msg.innerText = quotes[randomNumber];
+		let date = new Date();
+		starttime = date.getTime();
+		btn.innerText = "Done";
+	}
+const endplay = () =>{
+	    
+		let date = new Date();
+		endtime = date.getTime();
+	    let totaltime =((endtime-starttime)/1000);
+
+	    let totalstr = typedwords.value;
+	    let wordcount = wordcounter(totalstr);
+
+	    let speed = Math.round((wordcount / totaltime)*60);
+	    let result = "Your typing speed is" +speed+ " words per minute";
+	    
+	    result +=comparewords(msg.innerText,totalstr);
+
+	    msg.innerText = result;
+	}
+
+const comparewords = (str1,str2) =>{
+	let words1 = str1.split(" ");
+	let words2  = str2.split(" ");
+	let cnt = 0;
+
+	words1.forEach(function(item,index){
+		if(item == words2[index]){
+			cnt++;
+		}
+	})
+
+	let errorwords = (words1.length - cnt);
+	return (cnt + " correct out of " +words1.length+ " words and the total number of error are" + errorwords + ".");
+}
+
+const wordcounter = (str) =>{
+	let response = str.split(" ").length;
+	return response;
+
+}
+
+	btn.addEventListener('click',function(){
+		if(this.innerText == 'Start'){
+			typedwords.disabled = false;
+			playgame();
+		}else if(this.innerText == "Done"){
+			typedwords.disabled = true;
+			btn.innerText = "Start";
+			endplay();
+		}
+	})
+
+</script>
+</body>
+</html>
